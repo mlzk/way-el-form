@@ -16,7 +16,6 @@
   "secondaryPublishConfig": {
     "registry": "https://www.npmjs.com/"
   },
-  "registry": "http://192.168.9.197:4873/",
   "dependencies": {
     "core-js": "^3.8.3",
     "element-ui": "^2.15.13",
