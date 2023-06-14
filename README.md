@@ -1,12 +1,12 @@
 # way-el-form
 
 基于elementUI 封装的 JSON To Form 表单组件，支持 Search 和 Form 两种模式
-![封面](http://devops.waytous.com:8090/liuzikang/way-el-form/raw/master/public/images/1.jpg)
+
 ## Install
 
 ```bash
-# 请先配置内网 npm 源 http://192.168.9.197:4873/
-npm install way-view-form --save
+
+npm install way-el-form --save
 
 ```
 
@@ -16,10 +16,20 @@ npm install way-view-form --save
 // main.js
 // ...引入vue和iview之后
 // 引入组件库
-import WayViewForm from "way-view-form";
-import "way-view-form/dist/way-view-form.css";
-Vue.use(WayViewForm);
+import WayElForm from "way-el-form";
+import "way-el-form/dist/way-el-form.css";
+Vue.use(WayElForm);
 ```
+
+## run demo
+
+```bash 
+
+npm run serve
+
+```
+
+写的比较简单，具体使用看demo实现的效果
 
 ## 参数说明
 
