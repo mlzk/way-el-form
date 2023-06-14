@@ -1,7 +1,8 @@
 # way-el-form
 
-基于elementUI 封装的 JSON To Form 表单组件，支持 Search 和 Form 两种模式
+基于elementUI 封装的 JSON To Form 轻量化表单组件，支持 Search 和 Form 两种模式
 
+Example: [https://mlzk.github.io/way-el-form/docs/](https://mlzk.github.io/way-el-form/docs/)
 ## Install
 
 ```bash
