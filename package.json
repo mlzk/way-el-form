@@ -10,12 +10,6 @@
     "build:lib": "vue-cli-service build --target lib --name way-el-form --dest lib ./src/index.js",
     "lint": "vue-cli-service lint"
   },
-  "publishConfig": {
-    "registry": "http://192.168.9.197:4873/"
-  },
-  "secondaryPublishConfig": {
-    "registry": "https://www.npmjs.com/"
-  },
   "dependencies": {
     "core-js": "^3.8.3",
     "element-ui": "^2.15.13",
