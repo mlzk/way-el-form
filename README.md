@@ -344,5 +344,4 @@ getDevices() {
 
 ## Feature
 
-- [x] 抽离请求方法，支持配置 source 的 getMethod/移除 getMapData、getBusinessData 内置依赖；
-- [x] 剔除老旧项目中的 css fix 样式移到项目中；
+- [x] 兼容CheckBoxButton
