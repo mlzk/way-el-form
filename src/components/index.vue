@@ -205,15 +205,17 @@ export default {
         let requests = Object.keys(res.requests).map((key) => {
           return res.requests[key]();
         });
-        // form表单生成
-        this.formValues = Object.assign({}, res.formData);
-
+        // form表单初始值 用于重置表单 每次生成新的初始值避免修改form之后重置表单会将用户主动设置的值清空
+        this.formInitValues = Object.assign({}, res.formData);
         // 执行请求 完成数据源拉取
         if (requests && requests.length > 0) {
           await Promise.allSettled(requests).catch((err) => {
             console.warn(err);
           });
         }
+        // form表单生成
+        this.formValues = Object.assign({}, res.formData);
+
         if (this.needOverWriteForm) {
           this.overWrite(this.needOverWriteForm);
           this.needOverWriteForm = null;
@@ -746,6 +748,18 @@ export default {
 
     generatorSelect(h, item) {
       const self = this;
+      let defaultOn = {
+            input: (val) => {
+              self.formValues[item.key] = val;
+            },
+          }
+
+      if(item.effectKeys && item.effectKeys.length > 0) {
+        defaultOn["change"] = (val) => {
+          self.updateSources(item.effectKeys)
+        }
+      }
+      defaultOn = Object.assign({},defaultOn, item.componentsEvents)
       return h(
         "el-select",
         {
@@ -757,12 +771,7 @@ export default {
             placeholder: item.placeholder,
             ...item.componentsProps,
           },
-          on: {
-            input: (val) => {
-              self.formValues[item.key] = val;
-            },
-            ...item.componentsEvents,
-          },
+          on: defaultOn,
         },
         item.custom && item.custom.group
           ? self.generatorOptionsGroup(h, item, self.sourceData[item.key])
@@ -814,8 +823,8 @@ export default {
     generatorDefaultEvents(item) {
       // 日期组件与其他组件的事件不同
       if (["el-date-picker"].includes(item.type)) {
-        let  returnData  =  {
-          "on-change": (val) => {
+        let returnData = {
+          "change": (val) => {
             this.formValues[item.key] = val;
           },
           input: (val) => {
@@ -823,20 +832,21 @@ export default {
           },
         };
         if (item.effectKeys && item.effectKeys.length > 0) {
-          returnData["on-change"] = (val) => {
+          returnData["change"] = (val) => {
             this.formValues[item.key] = val;
             this.updateSources(item.effectKeys);
-          }
+          };
         }
         return returnData;
-
       } else {
+
         if (item.effectKeys && item.effectKeys.length > 0) {
+
           return {
             input: (val) => {
               this.formValues[item.key] = val;
             },
-            "on-change": (val) => {
+            "change": (val) => {
               this.updateSources(item.effectKeys);
             },
           };
@@ -888,8 +898,13 @@ export default {
             : await requestFunction();
 
           // 将请求到的数据赋值给sourceData
+
           $this.sourceData[item.key] = handle
-            ? handle(res, requestParams, this.formValues)
+            ? handle(
+                res,
+                requestParams,
+                $this.formValues || $this.formInitValues
+              )
             : res;
           return res;
         } catch (err) {
